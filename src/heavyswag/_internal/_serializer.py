@@ -208,7 +208,7 @@ class Serializer:
         # RFC 9110: 1xx/204/304 responses must not carry a body or
         # a Content-Length.
         has_body_status = (
-            response.status_code >= 200
+            response.status_code >= 200  # noqa: PLR2004
             and response.status_code not in _NO_BODY_STATUSES
         )
         if body and has_body_status:
@@ -253,7 +253,7 @@ class Serializer:
 
         return "; ".join(parts)
 
-    def _to_jsonable(self, value: Any) -> Any:  # noqa: ANN401
+    def _to_jsonable(self, value: Any) -> Any:  # noqa: ANN401, PLR0911
         if isinstance(value, UUID):
             return str(value)
 
@@ -307,7 +307,7 @@ class Serializer:
         msg = f"Cannot coerce {value!r} into {target_type!r}."
         raise SerializationError(msg)
 
-    def _coerce_str(self, raw: str, target_type: Any) -> Any:  # noqa: ANN401
+    def _coerce_str(self, raw: str, target_type: Any) -> Any:  # noqa: ANN401, PLR0911
         try:
             if target_type is int:
                 return int(raw)

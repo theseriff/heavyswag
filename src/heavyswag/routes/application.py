@@ -67,7 +67,7 @@ class HeavySwag:
         self.lifespan: Lifespan = lifespan or _noop_lifespan
 
 
-class _HS_Server:
+class _HS_Server:  # noqa: N801
     __slots__ = (
         "_call_next",
         "_lifespan",
@@ -249,7 +249,7 @@ def _dto_type(controller: Any) -> type[Any]:  # noqa: ANN401
     """
     hints = get_type_hints(controller)
     names = [name for name in hints if name != "return"]
-    return hints[names[1]]
+    return hints[names[1]]  # type: ignore[no-any-return]
 
 
 def _reconstruct_head(scope: Scope) -> bytes:
