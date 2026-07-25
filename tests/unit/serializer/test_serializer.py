@@ -102,9 +102,6 @@ def test_parse_http_with_query_string() -> None:
     )
 
 
-# --- append_body ---------------------------------------------------
-
-
 def test_append_body_extends_buffer() -> None:
     serializer = Serializer(b"head-")
     serializer.append_body(b"tail")
@@ -119,9 +116,6 @@ def test_append_body_ignores_empty_chunk() -> None:
     assert serializer._request == b"only"  # noqa: SLF001
 
 
-# --- serialize_json edge cases --------------------------------------
-
-
 def test_serialize_json_malformed_raises() -> None:
     serializer = Serializer(b"not json")
 
@@ -134,9 +128,6 @@ def test_serialize_json_non_object_raises() -> None:
 
     with pytest.raises(SerializationError, match="must be an object"):
         serializer.serialize_json()
-
-
-# --- serialize_dto ---------------------------------------------------
 
 
 class _PathOnly(NamedTuple):
@@ -224,9 +215,6 @@ def test_serialize_dto_parses_body_once_for_multiple_fields() -> None:
     assert dto == _TwoBodyFields(a="1", b="2")  # type: ignore[arg-type]
 
 
-# --- parse_query -----------------------------------------------------
-
-
 def test_parse_query_empty() -> None:
     serializer = Serializer(b"")
 
@@ -251,9 +239,6 @@ def test_parse_query_pair_without_value() -> None:
     assert serializer.parse_query("flag") == {"flag": ""}
 
 
-# --- wrap_response -----------------------------------------------------
-
-
 def test_wrap_response_passthrough() -> None:
     serializer = Serializer(b"")
     response: Response[str] = Response(status_code=201)
@@ -270,9 +255,6 @@ def test_wrap_response_wraps_bare_value() -> None:
     assert isinstance(wrapped, Response)
     assert wrapped.body == "hello"
     assert wrapped.status_code == 200  # noqa: PLR2004
-
-
-# --- render / render_body / render_cookie -----------------------------
 
 
 def test_render_body_none() -> None:
@@ -371,9 +353,6 @@ def test_render_no_content_length_for_empty_body() -> None:
     assert not any(name == b"content-length" for name, _ in headers)
 
 
-# --- _to_jsonable ------------------------------------------------------
-
-
 def test_to_jsonable_uuid() -> None:
     serializer = Serializer(b"")
     value = UUID("12345678-1234-5678-1234-567812345678")
@@ -434,9 +413,6 @@ def test_to_jsonable_passthrough_scalar() -> None:
     assert serializer._to_jsonable(None) is None  # noqa: SLF001
 
 
-# --- _field --------------------------------------------------------------
-
-
 def test_field_returns_value() -> None:
     serializer = Serializer(b"")
 
@@ -448,9 +424,6 @@ def test_field_missing_raises() -> None:
 
     with pytest.raises(SerializationError, match="Missing field 'a'"):
         serializer._field({}, "a", _PathOnly)  # noqa: SLF001
-
-
-# --- _coerce ---------------------------------------------------------------
 
 
 def test_coerce_matches_origin_passthrough() -> None:
@@ -484,9 +457,6 @@ def test_coerce_generic_origin_passthrough() -> None:
     serializer = Serializer(b"")
 
     assert serializer._coerce([1, 2], list[int]) == [1, 2]  # noqa: SLF001
-
-
-# --- _coerce_str -------------------------------------------------------
 
 
 @pytest.mark.parametrize(

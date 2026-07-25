@@ -10,6 +10,11 @@ readme = "README.md"
 license = "Apache-2.0"
 license-files = ["LICENSE"]
 
+authors = [
+  {name = "Maksim TTW", email = "maksimtimetowork@gmail.com"},
+  {name = "Davlat Davydov", email = "literally_user@hotmail.com"},
+]
+
 requires-python = ">=3.12"
 dependencies = []
 

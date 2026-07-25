@@ -39,9 +39,6 @@ def _build_app(**kwargs: object) -> HeavySwag:
     return HeavySwag(main_router=router, **kwargs)  # type: ignore[arg-type]
 
 
-# --- HeavySwag defaults ------------------------------------------------
-
-
 def test_heavyswag_defaults() -> None:
     router = HeavyRouter("/")
 
@@ -66,9 +63,6 @@ async def test_noop_lifespan_yields_none() -> None:
 
     async with _noop_lifespan(app) as value:
         assert value is None
-
-
-# --- _assemble_middlewares ----------------------------------------------
 
 
 def test_assemble_middlewares_adds_defaults_when_missing() -> None:
@@ -97,17 +91,11 @@ def test_assemble_middlewares_respects_custom_instances_and_order() -> None:
     assert assembled[-1] is custom_cors
 
 
-# --- _dto_type -----------------------------------------------------------
-
-
 def test_dto_type_extracts_second_param() -> None:
     async def controller(_request: Request, _dto: _Empty) -> str:
         return "x"
 
     assert _dto_type(controller) is _Empty
-
-
-# --- _reconstruct_head -----------------------------------------------------
 
 
 def test_reconstruct_head_without_query() -> None:
@@ -141,9 +129,6 @@ def test_reconstruct_head_preserves_other_header_casing() -> None:
     head = _reconstruct_head(scope)
 
     assert b"content-type: application/json\r\n" in head
-
-
-# --- full ASGI cycle: http -----------------------------------------------
 
 
 @pytest.mark.asyncio
@@ -291,9 +276,6 @@ async def test_http_response_object_is_used_as_is() -> None:
 
     assert send.messages[0]["status"] == 201  # noqa: PLR2004
     assert send.messages[1]["body"] == b"created"
-
-
-# --- full ASGI cycle: lifespan --------------------------------------------
 
 
 @pytest.mark.asyncio
