@@ -304,6 +304,32 @@ async def test_lifespan_startup_and_shutdown_complete() -> None:
 
 
 @pytest.mark.asyncio
+async def test_lifespan_unexpected_first_message_raises() -> None:
+    app = _build_app()
+    server = run_app(app)
+
+    receive = ReceiveQueue([{"type": "lifespan.shutdown"}])
+    send = SendRecorder()
+
+    with pytest.raises(RuntimeError, match=r"lifespan\.startup"):
+        await server({"type": "lifespan"}, receive, send)
+
+
+@pytest.mark.asyncio
+async def test_lifespan_unexpected_second_message_raises() -> None:
+    app = _build_app()
+    server = run_app(app)
+
+    receive = ReceiveQueue(
+        [{"type": "lifespan.startup"}, {"type": "lifespan.startup"}]
+    )
+    send = SendRecorder()
+
+    with pytest.raises(RuntimeError, match=r"lifespan\.shutdown"):
+        await server({"type": "lifespan"}, receive, send)
+
+
+@pytest.mark.asyncio
 async def test_lifespan_startup_failure() -> None:
     @asynccontextmanager
     async def lifespan(_app: HeavySwag) -> AsyncIterator[None]:

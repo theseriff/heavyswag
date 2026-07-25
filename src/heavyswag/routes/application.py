@@ -125,7 +125,9 @@ class _HS_Server:  # noqa: N801
         context_manager = self._lifespan()
 
         message = await receive()
-        assert message["type"] == "lifespan.startup"
+        if message["type"] != "lifespan.startup":
+            msg = f"Expected 'lifespan.startup', got {message['type']!r}."
+            raise RuntimeError(msg)
 
         try:
             await context_manager.__aenter__()
@@ -138,7 +140,9 @@ class _HS_Server:  # noqa: N801
         await send({"type": "lifespan.startup.complete"})
 
         message = await receive()
-        assert message["type"] == "lifespan.shutdown"
+        if message["type"] != "lifespan.shutdown":
+            msg = f"Expected 'lifespan.shutdown', got {message['type']!r}."
+            raise RuntimeError(msg)
 
         try:
             await context_manager.__aexit__(None, None, None)
