@@ -18,4 +18,3 @@ class Preambule(NamedTuple):
 class Request(NamedTuple):
     headers: list[tuple[str, str]]
     cookies: list[tuple[str, str]]
-

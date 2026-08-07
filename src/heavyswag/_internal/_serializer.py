@@ -83,10 +83,12 @@ class Serializer:
 
                     value_start = key_end + 2
 
-                    headers.append((
-                        self._request[key_start:key_end].decode(),
-                        self._request[value_start:value_end].decode(),
-                    ))
+                    headers.append(
+                        (
+                            self._request[key_start:key_end].decode(),
+                            self._request[value_start:value_end].decode(),
+                        )
+                    )
                 else:
                     self._offset += 2
                     while self._request[self._offset] != CR:
@@ -110,10 +112,12 @@ class Serializer:
                         if self._request[self._offset] == SC:
                             self._offset += 2
 
-                        cookies.append((
-                            self._request[key_start:key_end].decode(),
-                            self._request[value_start:value_end].decode(),
-                        ))
+                        cookies.append(
+                            (
+                                self._request[key_start:key_end].decode(),
+                                self._request[value_start:value_end].decode(),
+                            )
+                        )
 
             self._offset += 1
 

@@ -90,10 +90,7 @@ class CORSMiddleware:
         return response
 
     def _is_preflight(self, context: RequestContext) -> bool:
-        return (
-            context.preambule.method is MethodType.OPTIONS
-            and any(
-                k == "access-control-request-method"
-                for k, _ in context.request.headers
-            )
+        return context.preambule.method is MethodType.OPTIONS and any(
+            k == "access-control-request-method"
+            for k, _ in context.request.headers
         )
