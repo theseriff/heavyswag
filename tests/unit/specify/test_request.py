@@ -27,8 +27,23 @@ def test_query_marker_extraction() -> None:
 
 def test_request_shape() -> None:
     req = Request(
-        headers={"content-type": "application/json"},
-        cookies={},
+        headers=[("content-type", "application/json")],
+        cookies=[],
     )
-    assert req.headers["content-type"] == "application/json"
-    assert req.cookies == {}
+
+    assert ("content-type", "application/json") in req.headers
+    assert req.cookies == []
+
+
+def test_request_accepts_list_inputs() -> None:
+    req = Request(headers=[("content-type", "application/json")], cookies=[])
+
+    assert req.headers == [("content-type", "application/json")]
+    assert req.cookies == []
+
+
+def test_request_defaults_to_empty_collections() -> None:
+    req = Request([], [])
+
+    assert req.headers == []
+    assert req.cookies == []

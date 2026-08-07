@@ -21,8 +21,8 @@ def test_parse_http_without_header_and_cookies_and_body() -> None:
 
     assert preambule == Preambule(url="/", method=HttpMethod.GET)
     assert request == Request(
-        headers={},
-        cookies={},
+        headers=[],
+        cookies=[],
     )
 
 
@@ -34,8 +34,8 @@ def test_parse_http_with_header_without_cookies_and_body() -> None:
 
     assert preambule == Preambule(url="/", method=HttpMethod.GET)
     assert request == Request(
-        headers={"foo": "bar"},
-        cookies={},
+        headers=[("foo", "bar")],
+        cookies=[],
     )
 
 
@@ -49,8 +49,8 @@ def test_parse_http_with_header_and_cookies_without_body() -> None:
 
     assert preambule == Preambule(url="/", method=HttpMethod.GET)
     assert request == Request(
-        headers={"foo": "bar"},
-        cookies={"bar": "foo"},
+        headers=[("foo", "bar")],
+        cookies=[("bar", "foo")],
     )
 
 
@@ -66,8 +66,8 @@ def test_parse_http_with_header_and_multiple_cookies_without_body() -> None:
 
     assert preambule == Preambule(url="/", method=HttpMethod.GET)
     assert request == Request(
-        headers={"foo": "bar"},
-        cookies={"bar": "foo", "baz": "qux"},
+        headers=[("foo", "bar")],
+        cookies=[("bar", "foo"), ("baz", "qux")],
     )
 
 
@@ -86,8 +86,8 @@ def test_parse_http_with_header_and_cookies_and_body() -> None:
 
     assert preambule == Preambule(url="/", method=HttpMethod.GET)
     assert request == Request(
-        headers={"foo": "bar"},
-        cookies={"bar": "foo"},
+        headers=[("foo", "bar")],
+        cookies=[("bar", "foo")],
     )
     assert body == {"foo": [1, 2, 3]}
 

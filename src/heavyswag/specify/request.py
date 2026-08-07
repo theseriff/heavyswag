@@ -16,5 +16,5 @@ class Preambule(NamedTuple):
 
 
 class Request(NamedTuple):
-    headers: dict[str, str]
-    cookies: dict[str, str]
+    headers: list[tuple[str, str]]
+    cookies: list[tuple[str, str]]
