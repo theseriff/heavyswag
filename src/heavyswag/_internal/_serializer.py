@@ -61,11 +61,12 @@ class Serializer:
             self._offset += 1
 
         path, _, query = raw_url.partition("?")
+
         return Preambule(path, method, query)
 
     def serialize_request(self) -> Request:
-        headers: dict[str, str] = {}
-        cookies: dict[str, str] = {}
+        headers: list[tuple[str, str]] = []
+        cookies: list[tuple[str, str]] = []
 
         value_end = self._offset - 1
         key_start = key_end = value_start = self._offset
@@ -82,9 +83,10 @@ class Serializer:
 
                     value_start = key_end + 2
 
-                    headers[self._request[key_start:key_end].decode()] = (
-                        self._request[value_start:value_end].decode()
-                    )
+                    headers.append((
+                        self._request[key_start:key_end].decode(),
+                        self._request[value_start:value_end].decode(),
+                    ))
                 else:
                     self._offset += 2
                     while self._request[self._offset] != CR:
@@ -108,9 +110,10 @@ class Serializer:
                         if self._request[self._offset] == SC:
                             self._offset += 2
 
-                        cookies[self._request[key_start:key_end].decode()] = (
-                            self._request[value_start:value_end].decode()
-                        )
+                        cookies.append((
+                            self._request[key_start:key_end].decode(),
+                            self._request[value_start:value_end].decode(),
+                        ))
 
             self._offset += 1
 

@@ -37,7 +37,11 @@ class CORSMiddleware:
         call_next: CallNext,
         context: RequestContext,
     ) -> Response[Any]:
-        origin = context.request.headers.get("origin")
+        origin = None
+        for k, v in context.request.headers:
+            if k == "origin":
+                origin = v
+                break
 
         if origin is None or not self._origin_allowed(origin):
             return await call_next(context)
@@ -88,5 +92,8 @@ class CORSMiddleware:
     def _is_preflight(self, context: RequestContext) -> bool:
         return (
             context.preambule.method is MethodType.OPTIONS
-            and "access-control-request-method" in context.request.headers
+            and any(
+                k == "access-control-request-method"
+                for k, _ in context.request.headers
+            )
         )

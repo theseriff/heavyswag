@@ -12,9 +12,10 @@ def _context(
     method: HttpMethod | MethodType = HttpMethod.GET,
     headers: dict[str, str] | None = None,
 ) -> RequestContext:
+    header_items = list(headers.items()) if headers else []
     return RequestContext(
         preambule=Preambule(url="/", method=method),
-        request=Request(headers=headers or {}, cookies={}),
+        request=Request(headers=header_items, cookies=[]),
         serializer=Serializer(b""),
     )
 

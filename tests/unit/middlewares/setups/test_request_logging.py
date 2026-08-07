@@ -13,7 +13,7 @@ from heavyswag.specify.response import Response
 def _context() -> RequestContext:
     return RequestContext(
         preambule=Preambule(url="/hello", method=HttpMethod.GET),
-        request=Request(headers={}, cookies={}),
+        request=Request(headers=[], cookies=[]),
         serializer=Serializer(b""),
     )
 
