@@ -8,7 +8,7 @@ from heavyswag.specify.response import Response
 
 type Controller[
     InDTO: tuple[ALLOWED_TYPES, ...] | None,
-    OutDTO: tuple[ALLOWED_TYPES, ...] | None,
+    OutDTO: ALLOWED_TYPES | tuple[ALLOWED_TYPES, ...] | None,
     **P,
 ] = Callable[
     Concatenate[Request, InDTO, P], Awaitable[OutDTO | Response[OutDTO]]  # type: ignore[type-var]
@@ -41,7 +41,7 @@ class HeavyRouter:
 
     def get[
         In: tuple[ALLOWED_TYPES, ...] | None,
-        Out: tuple[ALLOWED_TYPES] | None,
+        Out: ALLOWED_TYPES | tuple[ALLOWED_TYPES] | None,
         **P,
     ](
         self,
@@ -54,7 +54,7 @@ class HeavyRouter:
 
     def post[
         In: tuple[ALLOWED_TYPES, ...] | None,
-        Out: tuple[ALLOWED_TYPES] | None,
+        Out: ALLOWED_TYPES | tuple[ALLOWED_TYPES] | None,
         **P,
     ](
         self,
@@ -67,7 +67,7 @@ class HeavyRouter:
 
     def put[
         In: tuple[ALLOWED_TYPES, ...] | None,
-        Out: tuple[ALLOWED_TYPES] | None,
+        Out: ALLOWED_TYPES | tuple[ALLOWED_TYPES] | None,
         **P,
     ](
         self,
@@ -80,7 +80,7 @@ class HeavyRouter:
 
     def patch[
         In: tuple[ALLOWED_TYPES, ...] | None,
-        Out: tuple[ALLOWED_TYPES] | None,
+        Out: ALLOWED_TYPES | tuple[ALLOWED_TYPES] | None,
         **P,
     ](
         self,
@@ -93,7 +93,7 @@ class HeavyRouter:
 
     def delete[
         In: tuple[ALLOWED_TYPES, ...] | None,
-        Out: tuple[ALLOWED_TYPES] | None,
+        Out: ALLOWED_TYPES | tuple[ALLOWED_TYPES] | None,
         **P,
     ](
         self,
@@ -129,7 +129,7 @@ class HeavyRouter:
 
     def _add_route[
         In: tuple[ALLOWED_TYPES, ...] | None,
-        Out: tuple[ALLOWED_TYPES] | None,
+        Out: ALLOWED_TYPES | tuple[ALLOWED_TYPES] | None,
         **P,
     ](
         self,

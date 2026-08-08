@@ -32,7 +32,7 @@ class _Empty(NamedTuple):
 def _build_app(**kwargs: object) -> HeavySwag:
     router = HeavyRouter("/")
 
-    @router.get("/")  # type: ignore[arg-type]
+    @router.get("/")
     async def index(_: Request, __: _Empty) -> str:
         return "ok"
 
@@ -204,7 +204,7 @@ async def test_http_reads_multi_chunk_body() -> None:
     class Payload(NamedTuple):
         text: Body[str]
 
-    @router.post("/echo")  # type: ignore[arg-type]
+    @router.post("/echo")
     async def echo(_: Request, dto: Payload) -> str:
         return dto.text  # type: ignore[return-value]
 
@@ -234,7 +234,7 @@ async def test_http_reads_multi_chunk_body() -> None:
 async def test_http_dispatch_error_goes_through_error_handling() -> None:
     router = HeavyRouter("/")
 
-    @router.get("/boom")  # type: ignore[arg-type]
+    @router.get("/boom")
     async def boom(_: Request, __: _Empty) -> str:
         msg = "kaboom"
         raise HeavySwagError(msg)
@@ -257,7 +257,7 @@ async def test_http_dispatch_error_goes_through_error_handling() -> None:
 async def test_http_response_object_is_used_as_is() -> None:
     router = HeavyRouter("/")
 
-    @router.get("/created")  # type: ignore[type-var]
+    @router.get("/created")
     async def created(_: Request, __: _Empty) -> Response[str]:
         response: Response[str] = Response(status_code=201)
         response.set_body("created")
