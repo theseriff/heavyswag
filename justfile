@@ -8,3 +8,6 @@ lint:
 
 test:
     uv run pytest .
+
+just doc:
+    zensical serve
